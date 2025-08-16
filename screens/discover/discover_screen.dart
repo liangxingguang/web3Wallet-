@@ -1,0 +1,8 @@
+import 'package:flutter/material.dart';
+
+class DiscoverScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Text('发现', style: TextStyle(fontSize: 24)));
+  }
+}
