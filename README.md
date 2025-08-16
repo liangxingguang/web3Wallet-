@@ -1,4 +1,3 @@
-markdown name=README.md
 # Web3Wallet
 
 ## 项目简介
