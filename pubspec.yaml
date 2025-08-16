@@ -1,0 +1,21 @@
+name: web3_wallet
+description: 多链Web3钱包，支持BTC、ETH、BSC等主流链的创建、导入、收款、转账等
+version: 1.0.0
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  provider: ^6.0.0
+  bitcoin_flutter: ^3.0.0
+  web3dart: ^2.7.0
+  bip39: ^1.0.6
+  bip32: ^2.0.0
+  qr_flutter: ^4.0.0
+  http: ^1.2.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
