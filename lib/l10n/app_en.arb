@@ -1,0 +1,12 @@
+{
+  "@@locale": "en",
+  "tabAssets": "Assets",
+  "tabDiscover": "Discover",
+  "tabProfile": "Profile",
+  "settings": "Settings",
+  "language": "Language",
+  "systemDefault": "System Default",
+  "english": "English",
+  "simplifiedChinese": "Simplified Chinese",
+  "japanese": "Japanese"
+}
