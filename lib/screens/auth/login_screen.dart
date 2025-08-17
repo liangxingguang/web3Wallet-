@@ -7,7 +7,7 @@ import 'package:crypto/crypto.dart';
 import 'dart:async';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -22,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   DateTime? _nextTryTime;
 
   Future<bool> _checkPassword(String password) async {
-    final storage = FlutterSecureStorage();
+    const storage = FlutterSecureStorage();
     final salt = await storage.read(key: 'wallet_password_salt');
     final hash = await storage.read(key: 'wallet_password_hash');
     if (salt == null || hash == null) return false;
@@ -41,7 +41,11 @@ class _LoginScreenState extends State<LoginScreen> {
     return base64Url.encode(key);
   }
 
-  List<int> pbkdf2({required List<int> password, required List<int> salt, int iterations = 10000, int bits = 256}) {
+  List<int> pbkdf2(
+      {required List<int> password,
+      required List<int> salt,
+      int iterations = 10000,
+      int bits = 256}) {
     final hmac = Hmac(sha256, password);
     final blocks = (bits / 32).ceil();
     var output = <int>[];
@@ -51,7 +55,9 @@ class _LoginScreenState extends State<LoginScreen> {
       var x = u;
       for (var j = 1; j < iterations; j++) {
         u = hmac.convert(u).bytes;
-        for (var k = 0; k < x.length; k++) x[k] ^= u[k];
+        for (var k = 0; k < x.length; k++) {
+          x[k] ^= u[k];
+        }
       }
       output.addAll(x);
     }
@@ -65,7 +71,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _login() async {
     if (_nextTryTime != null && DateTime.now().isBefore(_nextTryTime!)) {
-      setState(() { _error = "尝试次数过多，请稍后再试"; });
+      setState(() {
+        _error = "尝试次数过多，请稍后再试";
+      });
       return;
     }
     setState(() {
@@ -79,7 +87,9 @@ class _LoginScreenState extends State<LoginScreen> {
       _loading = false;
     });
     if (ok && hasWallet) {
-      setState(() { _failCount = 0; });
+      setState(() {
+        _failCount = 0;
+      });
       Navigator.pushReplacementNamed(context, '/home');
     } else if (!hasWallet && ok) {
       Navigator.pushReplacementNamed(context, '/create_or_import_wallet');
@@ -112,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('钱包登录')),
+      appBar: AppBar(title: const Text('钱包登录')),
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -124,29 +134,30 @@ class _LoginScreenState extends State<LoginScreen> {
               decoration: InputDecoration(
                 labelText: '主密码',
                 suffixIcon: IconButton(
-                  icon: Icon(_obscure ? Icons.visibility : Icons.visibility_off),
+                  icon:
+                      Icon(_obscure ? Icons.visibility : Icons.visibility_off),
                   onPressed: () => setState(() => _obscure = !_obscure),
                 ),
               ),
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             if (_error != null)
-              Text(_error!, style: TextStyle(color: Colors.red)),
-            SizedBox(height: 16),
+              Text(_error!, style: const TextStyle(color: Colors.red)),
+            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _loading ? null : _login,
               child: _loading
-                  ? CircularProgressIndicator()
-                  : Text('登录'),
+                  ? const CircularProgressIndicator()
+                  : const Text('登录'),
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             TextButton(
               onPressed: _toSetPassword,
-              child: Text('忘记密码？重设'), // 实际重设流程需清空钱包
+              child: const Text('忘记密码？重设'), // 实际重设流程需清空钱包
             ),
             TextButton(
               onPressed: _toCreateOrImportWallet,
-              child: Text('创建/导入钱包'),
+              child: const Text('创建/导入钱包'),
             ),
           ],
         ),

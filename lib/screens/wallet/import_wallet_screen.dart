@@ -6,6 +6,8 @@ import '../../services/btc_service.dart';
 import '../../services/eth_service.dart';
 
 class ImportWalletScreen extends StatefulWidget {
+  const ImportWalletScreen({super.key});
+
   @override
   _ImportWalletScreenState createState() => _ImportWalletScreenState();
 }
@@ -23,7 +25,8 @@ class _ImportWalletScreenState extends State<ImportWalletScreen> {
       final btcWallet = await BtcService.importFromMnemonic(mnemonic);
       address = btcWallet['address'];
       privateKey = btcWallet['privateKey'];
-    } else if (_selectedType == WalletType.eth || _selectedType == WalletType.bsc) {
+    } else if (_selectedType == WalletType.eth ||
+        _selectedType == WalletType.bsc) {
       final ethWallet = await EthService.importFromMnemonic(mnemonic);
       address = ethWallet['address'];
       privateKey = ethWallet['privateKey'];
@@ -47,7 +50,7 @@ class _ImportWalletScreenState extends State<ImportWalletScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('导入钱包')),
+      appBar: AppBar(title: const Text('导入钱包')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -66,11 +69,11 @@ class _ImportWalletScreenState extends State<ImportWalletScreen> {
             ),
             TextField(
               controller: _mnemonicController,
-              decoration: InputDecoration(labelText: '助记词'),
+              decoration: const InputDecoration(labelText: '助记词'),
             ),
             ElevatedButton(
               onPressed: () => _importWallet(context),
-              child: Text('导入钱包'),
+              child: const Text('导入钱包'),
             ),
           ],
         ),

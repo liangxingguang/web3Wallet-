@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'dart:math';
 
 class SetPasswordScreen extends StatefulWidget {
-  const SetPasswordScreen({Key? key}) : super(key: key);
+  const SetPasswordScreen({super.key});
 
   @override
   State<SetPasswordScreen> createState() => _SetPasswordScreenState();
@@ -18,9 +18,10 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
   String? _error;
 
   Future<void> _savePassword(String password) async {
-    final storage = FlutterSecureStorage();
+    const storage = FlutterSecureStorage();
     // 生成随机盐
-    final salt = base64Url.encode(List<int>.generate(16, (_) => Random.secure().nextInt(256)));
+    final salt = base64Url
+        .encode(List<int>.generate(16, (_) => Random.secure().nextInt(256)));
     // 使用PBKDF2生成hash
     final key = pbkdf2Hash(password, salt);
     await storage.write(key: 'wallet_password_hash', value: key);
@@ -54,7 +55,9 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
       var x = u;
       for (var j = 1; j < iterations; j++) {
         u = hmac.convert(u).bytes;
-        for (var k = 0; k < x.length; k++) x[k] ^= u[k];
+        for (var k = 0; k < x.length; k++) {
+          x[k] ^= u[k];
+        }
       }
       output.addAll(x);
     }
@@ -62,7 +65,10 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
   }
 
   void _trySetPassword() async {
-    setState(() { _error = null; _loading = true; });
+    setState(() {
+      _error = null;
+      _loading = true;
+    });
     final p1 = _pwd1.text;
     final p2 = _pwd2.text;
     if (p1.length < 8) {
@@ -80,14 +86,16 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
       return;
     }
     await _savePassword(p1);
-    setState(() { _loading = false; });
+    setState(() {
+      _loading = false;
+    });
     Navigator.pop(context, true); // 返回登录页
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('设置主密码')),
+      appBar: AppBar(title: const Text('设置主密码')),
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -96,18 +104,21 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
             TextField(
               controller: _pwd1,
               obscureText: true,
-              decoration: InputDecoration(labelText: '输入主密码（至少8位）'),
+              decoration: const InputDecoration(labelText: '输入主密码（至少8位）'),
             ),
             TextField(
               controller: _pwd2,
               obscureText: true,
-              decoration: InputDecoration(labelText: '再次输入主密码'),
+              decoration: const InputDecoration(labelText: '再次输入主密码'),
             ),
-            SizedBox(height: 24),
-            if (_error != null) Text(_error!, style: TextStyle(color: Colors.red)),
+            const SizedBox(height: 24),
+            if (_error != null)
+              Text(_error!, style: const TextStyle(color: Colors.red)),
             ElevatedButton(
               onPressed: _loading ? null : _trySetPassword,
-              child: _loading ? CircularProgressIndicator() : Text('设置密码'),
+              child: _loading
+                  ? const CircularProgressIndicator()
+                  : const Text('设置密码'),
             ),
           ],
         ),

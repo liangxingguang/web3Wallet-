@@ -6,6 +6,8 @@ import '../../services/btc_service.dart';
 import '../../services/eth_service.dart';
 
 class CreateWalletScreen extends StatefulWidget {
+  const CreateWalletScreen({super.key});
+
   @override
   _CreateWalletScreenState createState() => _CreateWalletScreenState();
 }
@@ -24,7 +26,8 @@ class _CreateWalletScreenState extends State<CreateWalletScreen> {
         _address = btcWallet['address'];
         _privateKey = btcWallet['privateKey'];
       });
-    } else if (_selectedType == WalletType.eth || _selectedType == WalletType.bsc) {
+    } else if (_selectedType == WalletType.eth ||
+        _selectedType == WalletType.bsc) {
       final ethWallet = await EthService.createHDWallet();
       setState(() {
         _mnemonic = ethWallet['mnemonic'];
@@ -52,7 +55,7 @@ class _CreateWalletScreenState extends State<CreateWalletScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('创建钱包')),
+      appBar: AppBar(title: const Text('创建钱包')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -71,7 +74,7 @@ class _CreateWalletScreenState extends State<CreateWalletScreen> {
             ),
             ElevatedButton(
               onPressed: () => _createWallet(context),
-              child: Text('生成钱包'),
+              child: const Text('生成钱包'),
             ),
             if (_mnemonic != null) ...[
               SelectableText('助记词: $_mnemonic'),
@@ -79,7 +82,7 @@ class _CreateWalletScreenState extends State<CreateWalletScreen> {
               SelectableText('私钥: $_privateKey'),
               ElevatedButton(
                 onPressed: () => _saveWallet(context),
-                child: Text('保存钱包'),
+                child: const Text('保存钱包'),
               ),
             ]
           ],

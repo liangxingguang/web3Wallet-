@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:hive/hive.dart';
 import 'dart:async';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:web3_wallet/screens/wallet/create_wallet_screen.dart';
+import 'package:web3_wallet/screens/wallet/import_wallet_screen.dart';
 
-import 'providers/locale_provider.dart';
-import 'providers/wallet_provider.dart';
-import 'generated/app_localizations.dart';
-import 'screens/main_tab_screen.dart';
-import 'screens/auth/login_screen.dart';
-import 'screens/auth/set_password_screen.dart';
-import 'models/wallet.dart';
+import '../providers/locale_provider.dart';
+import '../providers/wallet_provider.dart';
+import '../generated/app_localizations.dart';
+import '../screens/main_tab_screen.dart';
+import '../screens/auth/login_screen.dart';
+import '../screens/auth/set_password_screen.dart';
+import '../models/wallet.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -28,12 +30,12 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _checkPasswordAndNavigate() async {
-    final storage = FlutterSecureStorage();
+    const storage = FlutterSecureStorage();
     final hasPassword = await storage.containsKey(key: 'wallet_password_hash');
     final hasWallet = Hive.box<Wallet>('wallets').isNotEmpty;
 
     // 等待一小段时间，让启动画面有足够的显示时间
-    await Future.delayed(Duration(milliseconds: 500));
+    await Future.delayed(const Duration(milliseconds: 500));
 
     if (hasPassword) {
       // 有密码，导航到登录屏幕
@@ -58,28 +60,29 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // 这里可以添加应用logo
-            const Icon(
+            Icon(
               Icons.account_balance_wallet,
               size: 80,
               color: Color(0xFF2176FF),
             ),
-            const SizedBox(height: 20),
-            const Text(
+            SizedBox(height: 20),
+            Text(
               'Web3 Wallet',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: Color(0xFF2176FF),
+                fontFamily: 'System',
               ),
             ),
-            const SizedBox(height: 40),
-            const CircularProgressIndicator(
+            SizedBox(height: 40),
+            CircularProgressIndicator(
               color: Color(0xFF2176FF),
             ),
           ],
@@ -92,7 +95,10 @@ class _SplashScreenState extends State<SplashScreen> {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-  Hive.registerAdapter(WalletAdapter());
+  // 注册 WalletAdapter
+  if (!Hive.isAdapterRegistered(WalletAdapter().typeId)) {
+    Hive.registerAdapter(WalletAdapter());
+  }
   await Hive.openBox<Wallet>('wallets');
 
   runApp(
@@ -114,39 +120,31 @@ class Web3WalletApp extends StatelessWidget {
     final localeProvider = Provider.of<LocaleProvider>(context);
 
     return MaterialApp(
-      title: 'Web3Wallet',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: const Color(0xFF2176FF),
-        colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: const Color(0xFF2176FF),
-          secondary: const Color(0xFF6EC6FF),
-        ),
-        scaffoldBackgroundColor: const Color(0xFFF6F8FC),
-        cardTheme: CardTheme(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-          elevation: 2,
-        ),
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFF2176FF),
-          foregroundColor: Colors.white,
-          elevation: 0,
-        ),
-      ),
       locale: localeProvider.locale,
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
       ],
       supportedLocales: const [
-        Locale('en'),
-        Locale('zh'),
-        Locale('ja'),
+        Locale('en', ''),
+        Locale('zh', ''),
+        Locale('ja', ''),
       ],
-      home: SplashScreen(),
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const SplashScreen(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const SplashScreen(),
+        '/create_wallet': (context) => const CreateWalletScreen(),
+        '/import_wallet': (context) => const ImportWalletScreen(),
+        '/login': (context) => const LoginScreen(),
+        '/set_password': (context) => const SetPasswordScreen(),
+        '/main_tab': (context) => const MainTabScreen(),
+      },
     );
   }
 }

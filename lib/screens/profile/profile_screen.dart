@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('我的', style: TextStyle(fontSize: 24)));
+    return const Center(child: Text('我的', style: TextStyle(fontSize: 24)));
   }
 }

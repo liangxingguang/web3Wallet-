@@ -3,12 +3,14 @@ import 'package:provider/provider.dart';
 import '../../providers/wallet_provider.dart';
 
 class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     final walletProvider = Provider.of<WalletProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text('Web3多链钱包')),
+      appBar: AppBar(title: const Text('Web3多链钱包')),
       body: ListView.builder(
         itemCount: walletProvider.wallets.length,
         itemBuilder: (ctx, idx) {
@@ -28,7 +30,7 @@ class HomeScreen extends StatelessWidget {
         onPressed: () {
           Navigator.pushNamed(context, '/create_wallet');
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../models/wallet.dart';
+import 'package:web3_wallet/models/wallet.dart';
 import '../../services/btc_service.dart';
 import '../../services/eth_service.dart';
 
 class SendScreen extends StatefulWidget {
   final Wallet wallet;
 
-  const SendScreen({required this.wallet});
+  const SendScreen({super.key, required this.wallet});
 
   @override
   _SendScreenState createState() => _SendScreenState();
@@ -30,7 +30,8 @@ class _SendScreenState extends State<SendScreen> {
         _addressController.text.trim(),
         double.tryParse(_amountController.text.trim()) ?? 0,
       );
-    } else if (widget.wallet.type == WalletType.eth || widget.wallet.type == WalletType.bsc) {
+    } else if (widget.wallet.type == WalletType.eth ||
+        widget.wallet.type == WalletType.bsc) {
       txHash = await EthService.send(
         widget.wallet,
         _addressController.text.trim(),
@@ -47,27 +48,27 @@ class _SendScreenState extends State<SendScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('转账')),
+      appBar: AppBar(title: const Text('转账')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             TextField(
               controller: _addressController,
-              decoration: InputDecoration(labelText: '收款地址'),
+              decoration: const InputDecoration(labelText: '收款地址'),
             ),
             TextField(
               controller: _amountController,
-              decoration: InputDecoration(labelText: '金额'),
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              decoration: const InputDecoration(labelText: '金额'),
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _sending ? null : _send,
               child: Text(_sending ? '发送中...' : '发送'),
             ),
-            if (_txHash != null)
-              SelectableText('交易哈希: $_txHash'),
+            if (_txHash != null) SelectableText('交易哈希: $_txHash'),
           ],
         ),
       ),

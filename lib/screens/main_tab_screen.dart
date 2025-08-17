@@ -4,6 +4,8 @@ import 'discover/discover_screen.dart';
 import 'profile/profile_screen.dart';
 
 class MainTabScreen extends StatefulWidget {
+  const MainTabScreen({super.key});
+
   @override
   State<MainTabScreen> createState() => _MainTabScreenState();
 }
@@ -23,8 +25,9 @@ class _MainTabScreenState extends State<MainTabScreen> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (idx) => setState(() => _currentIndex = idx),
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.account_balance_wallet), label: '资产'),
+        items: const [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.account_balance_wallet), label: '资产'),
           BottomNavigationBarItem(icon: Icon(Icons.public), label: '发现'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: '我的'),
         ],
