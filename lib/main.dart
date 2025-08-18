@@ -6,6 +6,15 @@ import 'dart:async';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:web3_wallet/screens/wallet/create_wallet_screen.dart';
 import 'package:web3_wallet/screens/wallet/import_wallet_screen.dart';
+import 'package:web3_wallet/screens/wallet/create_or_import_wallet_screen.dart';
+import 'package:web3_wallet/screens/wallet/receive_screen.dart';
+import 'package:web3_wallet/screens/wallet/send_screen.dart';
+import 'package:web3_wallet/screens/wallet/wallet_detail_screen.dart';
+import 'package:web3_wallet/screens/wallet/wallet_manager_screen.dart';
+import 'package:web3_wallet/screens/home/home_screen.dart';
+import 'package:web3_wallet/screens/discover/discover_screen.dart';
+import 'package:web3_wallet/screens/profile/profile_screen.dart';
+import 'package:web3_wallet/screens/profile/settings_screen.dart';
 
 import '../providers/locale_provider.dart';
 import '../providers/wallet_provider.dart';
@@ -141,6 +150,15 @@ class Web3WalletApp extends StatelessWidget {
         '/': (context) => const SplashScreen(),
         '/create_wallet': (context) => const CreateWalletScreen(),
         '/import_wallet': (context) => const ImportWalletScreen(),
+        '/create_or_import_wallet': (context) => const CreateOrImportWalletScreen(),
+        '/receive': (context) => const ReceiveScreen(),
+        '/send': (context) => const SendScreen(),
+        '/wallet_detail': (context) => const WalletDetailScreen(),
+        '/wallet_manager': (context) => const WalletManagerScreen(),
+        '/home': (context) => const HomeScreen(),
+        '/discover': (context) => const DiscoverScreen(),
+        '/profile': (context) => const ProfileScreen(),
+        '/settings': (context) => const SettingsScreen(),
         '/login': (context) => const LoginScreen(),
         '/set_password': (context) => const SetPasswordScreen(),
         '/main_tab': (context) => const MainTabScreen(),
